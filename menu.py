@@ -42,3 +42,16 @@ class MenuAyuda(Menu):
         self.mostrar_texto("AYUDA", 50, (WIDTH // 2, 100))
         self.mostrar_texto("1. Mostrar Ayuda", 30, (WIDTH // 2, 200))
         self.mostrar_texto("2. Salir", 30, (WIDTH // 2, 250))
+
+
+class MenuEspera(Menu):
+    def mostrar(self):
+        # Texto de espera para el juego
+        self.mostrar_texto("Cargando...", 30, (WIDTH - 100, HEIGHT - 50))
+
+
+class Hud(Menu):
+    def mostrar(self):
+        self.mostrar_texto("Puntuacion: ", 30, (WIDTH // 2, 50))
+        self.mostrar_texto("Vidas: ", 30, (WIDTH // 2, 100))
+        self.mostrar_texto("Nivel: ", 30, (WIDTH // 2, 150))

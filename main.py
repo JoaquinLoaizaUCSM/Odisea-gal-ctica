@@ -1,4 +1,4 @@
-from juego import Juego
+from juego import Control
 
-juego = Juego()
+juego = Control()
 juego.mostrar_menu_principal()
