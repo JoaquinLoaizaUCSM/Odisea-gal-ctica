@@ -1,5 +1,6 @@
 import pygame
 from config import WIDTH, HEIGHT  # Importa los detalles de la configuración
+import sys
 
 
 class Menu:
