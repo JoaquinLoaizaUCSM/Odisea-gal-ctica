@@ -9,10 +9,11 @@ class Jugabilidad:
 
     def __init__(self, pantalla, reloj, todos_los_sprites):
         self.pantalla = pantalla
+        self.jugador = Jugador()
         self.fondo = pygame.image.load('imagenes/fondo.png')
+        self.fondo = pygame.transform.scale(self.fondo, (WIDTH, HEIGHT))
         self.reloj = reloj
         self.todos_los_sprites = todos_los_sprites
-        self.jugador = Jugador()
         self.todos_los_sprites.add(self.jugador)
 
     def update(self):
@@ -27,10 +28,9 @@ class Jugabilidad:
 
     # Renderizador
     def render(self):
-        self.pantalla.fill((0, 0, 0))
-        self.todos_los_sprites.draw(self.pantalla)
-        self.pantalla.blit(self.fondo, (0, 0))
-        pygame.display.flip()
+        self.pantalla.blit(self.fondo, (0, 0))  # Fondo primero
+        self.todos_los_sprites.draw(self.pantalla)  # Luego, los Sprites
+        pygame.display.flip()  # Actualizamos la pantalla
 
     def juego_principal(self):
         while True:
@@ -40,3 +40,5 @@ class Jugabilidad:
 
             # Limitar los cuadros por segundo
             self.reloj.tick(60)
+
+

@@ -4,9 +4,11 @@ from config import WIDTH, HEIGHT  # Importa los detalles de la configuración
 
 class Jugador(pygame.sprite.Sprite):
     def __init__(self):
-        super().__init__()      # Se inicializa la clase padre para que se pueda usar la clase Sprite
-        jugador_imagen_temp = pygame.image.load('imagenes/A1.png').convert_alpha()  # Carga la imagen de jugador
-        self.image = pygame.transform.scale(jugador_imagen_temp, (50, 50))  # Escala la imagen
+        super().__init__()
+        self.image = pygame.image.load('imagenes/A1.png')
+        ckey = self.image.get_at((0,0))
+        self.image.set_colorkey(ckey)
+        pygame.display.set_icon(self.image)
         self.rect = self.image.get_rect()
         self.rect.x = (WIDTH // 2) - (self.rect.width // 2)  # Ajusta la posición horizontal
         self.rect.y = (HEIGHT - self.rect.height)  # Ajusta la posición vertical
