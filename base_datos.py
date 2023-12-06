@@ -1,80 +1,80 @@
 import sqlite3
 
 
-# Clase de Base de Datos
-class BaseDatos:
+class BaseDeDatosJuego:
+    """Clase Base de Datos Juego."""
     def __init__(self):
         self.conexion = sqlite3.connect("datos_juego.db")
         self.cursor = self.conexion.cursor()
-        self.inicializar_tabla()
+        self.inicializar_tablas()
 
-    # Inicializa la tabla en la base de datos
-    def inicializar_tabla(self):
+    def inicializar_tablas(self):
+        """Inicializa las tablas en la base de datos."""
         self.cursor.executescript('''
-            CREATE TABLE IF NOT EXISTS jugador (
+            CREATE TABLE IF NOT EXISTS Jugador (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nombre TEXT,
                 puntuacion INTEGER,
                 fecha DATE
                 );
                 
-            CREATE TABLE IF NOT EXISTS  ranking (
+            CREATE TABLE IF NOT EXISTS  Ranking (
                 id_ranking INTEGER PRIMARY KEY AUTOINCREMENT,
                 id_jugador INTEGER);
-                
         ''')
         self.conexion.commit()
 
-    # Función para guardar puntuaciones en la base de datos
-    def guardar_puntuacion(self, nombre, puntuacion, fecha):
-        # verificamos que no se repita el nombre
-        if nombre in self.obtener_nombre():
-            return
+    def guardar_puntuacion(self, nombre: str, puntuacion: int, fecha: str):
+        """
+        Guarda la puntuacion de un jugador en la base de datos si el nombre no se repite.
+        :param nombre: Nombre del jugador.
+        :param puntuacion: Puntuacion del jugador.
+        :param fecha: Fecha de la puntuacion.
+        """
+        if nombre not in self.obtener_nombres():
+            self.cursor.execute("INSERT INTO Jugador (nombre, puntuacion, fecha) VALUES (?, ?, ?)",
+                                (nombre, puntuacion, fecha))
+            self.conexion.commit()
 
-        self.cursor.execute("INSERT INTO jugador (nombre, puntuacion, fecha) VALUES (?, ?, ?)",
-                            (nombre, puntuacion, fecha))
+    def guardar_ranking(self):
+        """Actualiza o inserta el ranking del jugador con la puntuacion más alta en la base de datos."""
+        if self.mostrar_ranking():
+            self.cursor.execute("""UPDATE Ranking SET id_jugador = (
+            SELECT id FROM Jugador ORDER BY puntuacion DESC LIMIT 1)""")
+        else:
+            self.cursor.execute("""INSERT INTO Ranking (id_jugador) VALUES (
+            (SELECT id FROM Jugador ORDER BY puntuacion DESC LIMIT 1))""")
         self.conexion.commit()
 
-    # Función para guardar el ranking desde la base de datos
-    def guardar_ranking(self):
-        # Remplacer el valor de id_jugador por el id del jugador con la puntuación más alta
-        if self.mostrar_ranking():
-            self.cursor.execute("""UPDATE ranking SET id_jugador = (
-            SELECT id FROM jugador ORDER BY puntuacion DESC LIMIT 1)""")
-            self.conexion.commit()
-            return
-        else:
-            self.cursor.execute("""INSERT INTO ranking (id_jugador) VALUES (
-            (SELECT id FROM jugador ORDER BY puntuacion DESC))""")
-            self.conexion.commit()
-
-    # Función para obtener las puntuaciones de la base de datos
-    def obtener_puntuaciones(self):
-        self.cursor.execute("SELECT * FROM jugador ORDER BY puntuacion DESC")
+    def obtener_puntuaciones(self) -> list:
+        """Obtiene las puntuaciones de los jugadores de la base de datos."""
+        self.cursor.execute("SELECT * FROM Jugador ORDER BY puntuacion DESC")
         return self.cursor.fetchall()
 
-    # Función para obtener el nombre del jugador
-    def obtener_nombre(self):
-        self.cursor.execute("SELECT nombre FROM jugador ORDER BY puntuacion DESC")
-        nombres = [nombre[0] for nombre in self.cursor.fetchall()]
-        return nombres
+    def obtener_nombres(self) -> list:
+        """Obtiene los nombres de los jugadores de la base de datos."""
+        self.cursor.execute("SELECT nombre FROM Jugador ORDER BY puntuacion DESC")
+        return [nombre[0] for nombre in self.cursor.fetchall()]
 
-    # Función para mostrar el ranking
-    def mostrar_ranking(self):
-        self.cursor.execute("SELECT * FROM ranking ORDER BY id_ranking DESC")
+    def mostrar_ranking(self) -> list:
+        """Obtiene el ranking de la base de datos."""
+        self.cursor.execute("SELECT * FROM Ranking ORDER BY id_ranking DESC")
         return self.cursor.fetchall()
 
 
-# Probar la base de datos
-
-# base_datos = BaseDatos()
-# base_datos.guardar_puntuacion("Jugador 1", 100, "2021-01-01")
-# base_datos.guardar_puntuacion("Jugador 2", 200, "2021-01-02")
-# base_datos.guardar_puntuacion("Jugador 3", 300, "2021-01-03")
+# if __name__ == "__main__":
+#     # Probar la base de datos
+#     base_de_datos = BaseDeDatosJuego()
 #
-# base_datos.guardar_ranking()
+#     # Guardar puntuaciones de prueba
+#     base_de_datos.guardar_puntuacion("Jugador 1", 100, "2021-01-01")
+#     base_de_datos.guardar_puntuacion("Jugador 2", 200, "2021-01-02")
+#     base_de_datos.guardar_puntuacion("Jugador 3", 300, "2021-01-03")
 #
-# print(base_datos.obtener_puntuaciones())
-# print(base_datos.obtener_nombre())
-# print(base_datos.mostrar_ranking())
-
+#     # Guardar el ranking
+#     base_de_datos.guardar_ranking()
+#
+#     # Imprimir los datos de prueba
+#     print(base_de_datos.obtener_puntuaciones())
+#     print(base_de_datos.obtener_nombres())
+#     print(base_de_datos.mostrar_ranking())
