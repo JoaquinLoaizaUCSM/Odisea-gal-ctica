@@ -1,18 +1,13 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
-
-# Other files and folders
-.settings/
-
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
-
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+/v2/imagenes/A1.png
+/build/main/Analysis-00.toc
+/build/main/base_library.zip
+/build/main/EXE-00.toc
+/build/main/main.pkg
+/build/main/PKG-00.toc
+/build/main/PYZ-00.pyz
+/build/main/PYZ-00.toc
+/build/main/warn-main.txt
+/build/main/xref-main.html
+/dist/
+/build/
+/explosion/

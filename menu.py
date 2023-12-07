@@ -56,7 +56,7 @@ class MenuRecordsBD(Menu):
         puntajes = model.obtener_puntuaciones()
         puntajes = sorted(puntajes, key=lambda x: x[2], reverse=True)
         for i in range(len(puntajes)):
-            self.mostrar_texto(f"{puntajes[i][1]}: {puntajes[i][2]}", 30, (WIDTH // 2, 200 + (i * 50)))
+            self.mostrar_texto(f"{puntajes[i][1]}: {puntajes[i][2]}", 30, (WIDTH // 2, 150 + (i * 50)))
 
 
 class MenuEspera(Menu):
@@ -73,7 +73,16 @@ class MenuIngresoNombre(Menu):
         self._texto_ingreso_nombre()
 
     def _texto_ingreso_nombre(self):
-        self.mostrar_texto("INGRESE SU NOMBRE", 50, (WIDTH // 2, 100))
+        # Intruciones para que el usuario ingrese su nombre
+        self.mostrar_texto("INGRESO NOMBRE POR MEDIO DEL TECLADO", 30, (WIDTH // 2, 100))
+        self.mostrar_texto("EN LA CONSOLA (PANTALLA NEGRA)", 30, (WIDTH // 2, 200))
+        self.mostrar_texto("GRACIAS POR JUGAR", 30, (WIDTH // 2, 250))
+
+        # Creditos aparece abajo
+        self.mostrar_texto("CREDITOS: ", 30, (WIDTH // 2, 350))
+        self.mostrar_texto("JOAQUIN ARMANDO LOAIZA CRUZ ", 30, (WIDTH // 2, 400))
+        self.mostrar_texto("RODRIGUEZ LOPEZ ELIZABETH CAMILA ", 30, (WIDTH // 2, 450))
+        self.mostrar_texto("SALVADOR CHOQUE TACO", 30, (WIDTH // 2, 500))
 
 
 class MenuAyuda(Menu):
